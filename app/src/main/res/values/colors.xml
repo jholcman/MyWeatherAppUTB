@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#6200EE</color>
+    <color name="colorPrimaryDark">#3700B3</color>
+    <color name="colorAccent">#03DAC5</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="splash">#0163B1</color>
+    <color name="top_gradient">#012D50</color>
+    <color name="bottom_gradient">#59A0D8</color>
+    <color name="top_gradient_main">#9561a1</color>
+    <color name="bottom_gradient_main">#122259</color>
+    <color name="city">#1B0C37</color>
+</resources>
