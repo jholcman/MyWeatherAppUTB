@@ -1,18 +1,22 @@
 package com.utb.myweatherapp
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.RelativeLayout
 import android.widget.TextView
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import kotlinx.android.synthetic.main.activity_main.*
 import org.json.JSONObject
 import java.net.URL
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.roundToInt
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,10 +27,18 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val btnSetup : Button = findViewById(R.id.bSetup)
+        btnSetup.setOnClickListener {
+            val intent = Intent(this, SecondActivity :: class.java)
+            startActivity(intent)
+        }
+
         WeatherTask().execute()
 
 
     }
+
+
 
     @SuppressLint("StaticFieldLeak")
     inner class WeatherTask() : AsyncTask<String, Void, String>() {

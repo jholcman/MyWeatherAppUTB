@@ -7,6 +7,15 @@
     android:padding="25dp"
     android:background="@drawable/cloud">
 
+    <Button
+        android:id="@+id/bSetup"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/setup"
+        android:backgroundTint="@color/white"
+        app:tint="@color/white"
+        android:layout_alignParentRight="true"/>
+
     <RelativeLayout
         android:id="@+id/mainContainer"
         android:layout_width="match_parent"

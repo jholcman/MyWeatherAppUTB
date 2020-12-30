@@ -1,6 +1,8 @@
 package com.utb.myweatherapp
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 
 class SecondActivity : AppCompatActivity() {
@@ -9,6 +11,12 @@ class SecondActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_second)
 
+        val btnSave : Button = findViewById(R.id.bSave)
+
+        btnSave.setOnClickListener {
+            val intent = Intent(this, MainActivity :: class.java)
+            startActivity(intent)
+        }
 
 
     }
