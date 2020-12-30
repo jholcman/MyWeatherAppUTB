@@ -1,56 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="25dp"
+    android:background="@drawable/brno"
     android:gravity="center_horizontal"
-    android:background="@drawable/brno">
+    android:orientation="vertical"
+    android:padding="25dp">
 
-    <RelativeLayout
-        android:id="@+id/mainContainer"
+
+    <LinearLayout
+        android:id="@+id/setup"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="visible">
+        android:layout_height="wrap_content"
+        android:gravity="center">
 
-        <LinearLayout
-            android:id="@+id/setup"
+        <TextView
+            android:id="@+id/setuptitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="5dp"
+            android:text="Setup Aplication"
+            android:textColor="@color/white"
+            android:textSize="32sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/city"
+        android:layout_marginTop="40dp"
+        android:layout_width="match_parent"
+        android:layout_height="310dp"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/dcity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Default city"
+            android:textColor="@color/white"
+            android:textSize="24sp" />
+
+        <EditText
+            android:id="@+id/edcity"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:hint="Name of city"
+            android:inputType="text"
+            android:backgroundTint="#83FFFFFF"
+            android:textSize="24sp" />
+
+        <Space android:layout_width="40dp"
+            android:layout_height="40dp"/>
+
+        <TextView
+            android:id="@+id/dunits"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Units"
+            android:textColor="@color/white"
+            android:textSize="24sp" />
+
+        <RadioGroup
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center">
+            android:gravity="center"
+            android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/s"
+            <RadioButton
+                android:id="@+id/radiometric"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Setup Aplication"
-                android:textColor="@color/white"
-                android:textSize="32sp"
-                android:layout_gravity="bottom"
-                android:layout_marginBottom="5dp"/>
-        </LinearLayout>
+                android:buttonTint="#FFFFFF"
+                android:checked="true"
 
-    </RelativeLayout>
+                android:text="Metric"
+                android:textColor="@color/white"
+                android:textSize="24sp" />
+            <Space android:layout_width="40dp"
+                android:layout_height="40dp"/>
+
+            <RadioButton
+                android:id="@+id/radioimperial"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="#FFFFFF"
+
+                android:text="Imperial"
+                android:textColor="@color/white"
+                android:textSize="24sp" />
+        </RadioGroup>
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_alignParentBottom="true"
-        android:padding="10dp"
-        android:background="#880163B1">
+        android:background="#880163B1"
+        android:orientation="horizontal"
+        android:padding="0dp">
 
         <Button
             android:id="@+id/bSave"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:backgroundTint="@color/splash"
+            android:gravity="center"
             android:text="Save"
             android:textColor="@color/white"
-            android:textSize="24sp"
-            android:gravity="center"
-            android:backgroundTint="@color/splash"
-            />
+            android:textSize="24sp" />
 
     </LinearLayout>
 

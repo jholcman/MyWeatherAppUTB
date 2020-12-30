@@ -1,7 +1,9 @@
 package com.utb.myweatherapp
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.AsyncTask
 import android.os.Bundle
 import android.view.View
@@ -20,7 +22,12 @@ import kotlin.math.roundToInt
 
 class MainActivity : AppCompatActivity() {
 
-    val CITY: String = "Praha"
+    val sharedPreferences : SharedPreferences = getSharedPreferences("SETUP_SHARED", Context.MODE_PRIVATE)
+    val city: String? = sharedPreferences.getString( "CITY", null )
+    val units: String? = sharedPreferences.getString( "UNITS", null )
+
+
+    //var CITY: String = "Praha"
     val API: String = "45dca48978390897290109479536333a" // Use API key
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,9 +57,21 @@ class MainActivity : AppCompatActivity() {
         }
 
         override fun doInBackground(vararg params: String?): String? {
+
+            val editor = sharedPreferences.edit()
+
+            if (city == null) {
+                editor.putString("CITY", "Brno")
+                editor.apply()
+            }
+            if (units == null) {
+                editor.putString("UNITS", "metric")
+                editor.apply()
+            }
+
             var response:String?
             try{
-                response = URL("https://api.openweathermap.org/data/2.5/weather?q=$CITY&units=metric&appid=$API").readText(
+                response = URL("https://api.openweathermap.org/data/2.5/weather?q=$city&units=$units&appid=$API").readText(
                     Charsets.UTF_8
                 )
             }catch (e: Exception){
@@ -64,7 +83,13 @@ class MainActivity : AppCompatActivity() {
         override fun onPostExecute(result: String?) {
             super.onPostExecute(result)
             try {
-                /* Extracting JSON returns from the API */
+                var teplota : String = "°F"
+                var vitr : String = "miles/hours"
+                if (units == "metric") {
+                    teplota = "°C"
+                    vitr = "m/s"
+                }
+
                 val jsonObj = JSONObject(result)
                 val main = jsonObj.getJSONObject("main")
                 val sys = jsonObj.getJSONObject("sys")
@@ -76,22 +101,23 @@ class MainActivity : AppCompatActivity() {
                 val updatedAtText = "Last update: "+ SimpleDateFormat("d.W.yyyy kk:mm", Locale.ENGLISH).format(Date(updatedAt*1000))
 
                 val weatherDescription = weather.getString("description")
-                val temp = main.getString("temp").toFloat().roundToInt().toString()+"°C"
-                val tempMin = "Min Temp: " + main.getString("temp_min").toFloat().roundToInt().toString()+"°C"
-                val tempMax = "Max Temp: " + main.getString("temp_max").toFloat().roundToInt().toString()+"°C"
+                val temp = main.getString("temp").toFloat().roundToInt().toString()
+                val tempMin = "Min Temp: " + main.getString("temp_min").toFloat().roundToInt().toString() + teplota
+                val tempMax = "Max Temp: " + main.getString("temp_max").toFloat().roundToInt().toString() + teplota
 
                 val sunrise:Long = sys.getLong("sunrise")
                 val sunset:Long = sys.getLong("sunset")
-                val windSpeed = wind.getString("speed")+" m/s"
+                val windSpeed = wind.getString("speed") + vitr
                 val pressure = main.getString("pressure")+" hPa"
                 val humidity = main.getString("humidity")+" %"
-                val feel = main.getString("feels_like").toFloat().roundToInt().toString()+"°C"
+                val feel = main.getString("feels_like").toFloat().roundToInt().toString() + teplota
 
 
                 findViewById<TextView>(R.id.address).text = address
                 findViewById<TextView>(R.id.updated_at).text =  updatedAtText
                 findViewById<TextView>(R.id.status).text = weatherDescription.capitalize()
                 findViewById<TextView>(R.id.temp).text = temp
+                findViewById<TextView>(R.id.unit).text = teplota
                 findViewById<TextView>(R.id.temp_min).text = tempMin
                 findViewById<TextView>(R.id.temp_max).text = tempMax
                 findViewById<TextView>(R.id.sunrise).text = SimpleDateFormat("k:mm", Locale.ENGLISH).format(Date(sunrise*1000))
