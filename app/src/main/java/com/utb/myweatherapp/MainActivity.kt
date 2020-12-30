@@ -22,9 +22,8 @@ import kotlin.math.roundToInt
 
 class MainActivity : AppCompatActivity() {
 
-    val sharedPreferences : SharedPreferences = getSharedPreferences("SETUP_SHARED", Context.MODE_PRIVATE)
-    val city: String? = sharedPreferences.getString( "CITY", null )
-    val units: String? = sharedPreferences.getString( "UNITS", null )
+    var city: String? = null
+    var units: String? = null
 
 
     //var CITY: String = "Praha"
@@ -57,6 +56,9 @@ class MainActivity : AppCompatActivity() {
         }
 
         override fun doInBackground(vararg params: String?): String? {
+            val sharedPreferences : SharedPreferences = getSharedPreferences("SETUP_SHARED", Context.MODE_PRIVATE)
+            city = sharedPreferences.getString( "CITY", null )
+            units = sharedPreferences.getString( "UNITS", null )
 
             val editor = sharedPreferences.edit()
 
@@ -84,7 +86,7 @@ class MainActivity : AppCompatActivity() {
             super.onPostExecute(result)
             try {
                 var teplota : String = "°F"
-                var vitr : String = "miles/hours"
+                var vitr : String = "Mph"
                 if (units == "metric") {
                     teplota = "°C"
                     vitr = "m/s"
