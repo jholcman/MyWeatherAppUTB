@@ -1,62 +1,49 @@
 package com.utb.myweatherapp
 
 import android.annotation.SuppressLint
-import android.content.Context
-import android.content.Intent
 import android.content.SharedPreferences
 import android.os.AsyncTask
 import android.os.Bundle
 import android.view.View
-import android.widget.ProgressBar
-import android.widget.RelativeLayout
-import android.widget.TextView
-import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.activity_main.*
+import com.utb.myweatherapp.databinding.ActivityMainBinding
 import org.json.JSONObject
 import java.net.URL
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.roundToInt
+import android.content.Intent
+
 
 
 class MainActivity : AppCompatActivity() {
 
     var city: String? = null
     var units: String? = null
-
-
-    //var CITY: String = "Praha"
-    val API: String = "45dca48978390897290109479536333a" // Use API key
+    val api: String = "45dca48978390897290109479536333a" // My API key OpenWeatherMap
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val btnSetup : Button = findViewById(R.id.bSetup)
-        btnSetup.setOnClickListener {
-            val intent = Intent(this, SecondActivity :: class.java)
-            startActivity(intent)
-        }
-
         WeatherTask().execute()
-
-
     }
-
-
 
     @SuppressLint("StaticFieldLeak")
     inner class WeatherTask() : AsyncTask<String, Void, String>() {
         override fun onPreExecute() {
             super.onPreExecute()
-            findViewById<ProgressBar>(R.id.loader).visibility = View.VISIBLE
-            findViewById<RelativeLayout>(R.id.mainContainer).visibility = View.GONE
-            findViewById<TextView>(R.id.errorText).visibility = View.GONE
+
+            val binding =  ActivityMainBinding.inflate (layoutInflater)
+            setContentView (binding.root)
+
+            binding.loader.visibility = View.VISIBLE
+            binding.mainContainer.visibility = View.GONE
+            binding.errorText.visibility = View.GONE
         }
 
         override fun doInBackground(vararg params: String?): String? {
-            val sharedPreferences : SharedPreferences = getSharedPreferences("SETUP_SHARED", Context.MODE_PRIVATE)
+            val sharedPreferences : SharedPreferences = getSharedPreferences("SETUP_SHARED", MODE_PRIVATE)
             city = sharedPreferences.getString( "CITY", null )
             units = sharedPreferences.getString( "UNITS", null )
 
@@ -73,7 +60,7 @@ class MainActivity : AppCompatActivity() {
 
             var response:String?
             try{
-                response = URL("https://api.openweathermap.org/data/2.5/weather?q=$city&units=$units&appid=$API").readText(
+                response = URL("https://api.openweathermap.org/data/2.5/weather?q=$city&units=$units&appid=$api").readText(
                     Charsets.UTF_8
                 )
             }catch (e: Exception){
@@ -84,6 +71,10 @@ class MainActivity : AppCompatActivity() {
 
         override fun onPostExecute(result: String?) {
             super.onPostExecute(result)
+
+            val binding =  ActivityMainBinding.inflate (layoutInflater)
+            setContentView (binding.root)
+
             try {
                 var teplota : String = "°F"
                 var vitr : String = "Mph"
@@ -115,28 +106,34 @@ class MainActivity : AppCompatActivity() {
                 val feel = main.getString("feels_like").toFloat().roundToInt().toString() + teplota
 
 
-                findViewById<TextView>(R.id.address).text = address
-                findViewById<TextView>(R.id.updated_at).text =  updatedAtText
-                findViewById<TextView>(R.id.status).text = weatherDescription.capitalize()
-                findViewById<TextView>(R.id.temp).text = temp
-                findViewById<TextView>(R.id.unit).text = teplota
-                findViewById<TextView>(R.id.temp_min).text = tempMin
-                findViewById<TextView>(R.id.temp_max).text = tempMax
-                findViewById<TextView>(R.id.sunrise).text = SimpleDateFormat("k:mm", Locale.ENGLISH).format(Date(sunrise*1000))
-                findViewById<TextView>(R.id.sunset).text = SimpleDateFormat("k:mm", Locale.ENGLISH).format(Date(sunset*1000))
-                findViewById<TextView>(R.id.wind).text = windSpeed
-                findViewById<TextView>(R.id.pressure).text = pressure
-                findViewById<TextView>(R.id.humidity).text = humidity
-                findViewById<TextView>(R.id.feel).text = feel
+                binding.address.text = address
+                binding.updatedat.text =  updatedAtText
+                binding.status.text = weatherDescription.capitalize()
+                binding.temp.text = temp
+                binding.unit.text = teplota
+                binding.tempmin.text = tempMin
+                binding.tempmax.text = tempMax
+                binding.sunrise.text = SimpleDateFormat("k:mm", Locale.ENGLISH).format(Date(sunrise*1000))
+                binding.sunset.text = SimpleDateFormat("k:mm", Locale.ENGLISH).format(Date(sunset*1000))
+                binding.wind.text = windSpeed
+                binding.pressure.text = pressure
+                binding.humidity.text = humidity
+                binding.feel.text = feel
 
-                findViewById<ProgressBar>(R.id.loader).visibility = View.GONE
-                findViewById<RelativeLayout>(R.id.mainContainer).visibility = View.VISIBLE
+                binding.loader.visibility = View.GONE
+                binding.mainContainer.visibility = View.VISIBLE
+
 
             } catch (e: Exception) {
-                findViewById<ProgressBar>(R.id.loader).visibility = View.GONE
-                findViewById<TextView>(R.id.errorText).visibility = View.VISIBLE
+                binding.loader.visibility = View.GONE
+                binding.errorText.visibility = View.VISIBLE
             }
 
         }
+    }
+
+    fun secondActivity(view: View) {
+        val intent = Intent(this, SecondActivity :: class.java)
+        startActivity(intent);
     }
 }
