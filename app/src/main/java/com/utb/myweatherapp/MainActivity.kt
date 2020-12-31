@@ -13,7 +13,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.roundToInt
 import android.content.Intent
-
+import android.widget.Toast
 
 
 class MainActivity : AppCompatActivity() {
@@ -60,9 +60,7 @@ class MainActivity : AppCompatActivity() {
 
             var response:String?
             try{
-                response = URL("https://api.openweathermap.org/data/2.5/weather?q=$city&units=$units&appid=$api").readText(
-                    Charsets.UTF_8
-                )
+                response = URL("https://api.openweathermap.org/data/2.5/weather?q=$city&units=$units&appid=$api").readText(Charsets.UTF_8)
             }catch (e: Exception){
                 response = null
             }
@@ -125,6 +123,8 @@ class MainActivity : AppCompatActivity() {
 
 
             } catch (e: Exception) {
+
+                binding.mainContainer.visibility = View.GONE
                 binding.loader.visibility = View.GONE
                 binding.errorText.visibility = View.VISIBLE
             }

@@ -400,13 +400,16 @@
         android:layout_centerInParent="true"
         android:visibility="gone"/>
 
-    <TextView android:id="@+id/errorText"
+    <TextView
+        android:id="@+id/errorText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:visibility="gone"
-        android:text="Failed to connect to the Internet"
-        android:textColor="@color/white"/>
+        android:onClick="secondActivity"
+        android:textAlignment="center"
+        android:text="Failed to connect to the Internet\nor\nCity not found\nclick and try again"
+        android:textColor="@color/white"
+        android:visibility="invisible" />
 
 
 </RelativeLayout>
